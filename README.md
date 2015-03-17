@@ -1,5 +1,10 @@
 # Keepcon
 
+
+[![Build Status](https://travis-ci.org/LoveMondays/keepcon.svg)](https://travis-ci.org/LoveMondays/keepcon)
+[![Code Climate](https://codeclimate.com/github/LoveMondays/keepcon/badges/gpa.svg)](https://codeclimate.com/github/LoveMondays/keepcon)
+[![Test Coverage](https://codeclimate.com/github/LoveMondays/keepcon/badges/coverage.svg)](https://codeclimate.com/github/LoveMondays/keepcon)
+
 This is a Ruby wrapper for the [Keepcon](http://keepcon.com) API.
 
 ## Installation

@@ -6,6 +6,7 @@ describe Keepcon::Entity do
       define_method(:id) { 1 }
       define_method(:a) { 1 }
       define_method(:b) { 2 }
+      define_method(:created_at) { Time.new('2015-01-01') }
     end
   end
 
@@ -37,21 +38,58 @@ describe Keepcon::Entity do
     subject { entity.to_xml }
 
     let(:entity) { build(:entity, context: context, instance: instance) }
-    let(:context) { build(:context, mappings: { a: :x, b: :y }) }
     let(:instance) { dummy_class.new }
 
-    it 'generates the correct xml' do
-      is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
-        <import>
-          <contenttype>#{context.name}</contenttype>
-          <contents>
-            <content id="1">
-              <x><![CDATA[1]]></x>
-              <y><![CDATA[2]]></y>
-            </content>
-          </contents>
-        </import>
-      END
+    context 'when the attribute is mapped to author' do
+      let(:context) { build(:context, mappings: { a: :author }) }
+
+      it 'generates the correct xml' do
+        is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
+          <import>
+            <contenttype>#{context.name}</contenttype>
+            <contents>
+              <content id="1">
+                <author type="author">1</author>
+              </content>
+            </contents>
+          </import>
+        END
+      end
+    end
+
+    context 'when the attribute is mapped to datetime' do
+      let(:context) { build(:context, mappings: { created_at: :datetime }) }
+
+      it 'generates the correct xml' do
+        is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
+          <import>
+            <contenttype>#{context.name}</contenttype>
+            <contents>
+              <content id="1">
+                <datetime>1420077600000</datetime>
+              </content>
+            </contents>
+          </import>
+        END
+      end
+    end
+
+    context 'with other mappings' do
+      let(:context) { build(:context, mappings: { a: :x, b: :y }) }
+
+      it 'generates the correct xml' do
+        is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
+          <import>
+            <contenttype>#{context.name}</contenttype>
+            <contents>
+              <content id="1">
+                <x><![CDATA[1]]></x>
+                <y><![CDATA[2]]></y>
+              </content>
+            </contents>
+          </import>
+        END
+      end
     end
   end
 end

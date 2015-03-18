@@ -37,7 +37,13 @@ module Keepcon
     end
 
     def translate_to_xml_hash
-      translate.map { |k, v| ["#{k}!", { content!: cdata_section(v) }] }.to_h
+      translate.map do |k, v|
+        case k
+        when :datetime then [k, { content!: (v.to_f * 1_000).to_i }]
+        when :author then [k, { :@type => :author, :content! => v }]
+        else ["#{k}!", { content!: cdata_section(v) }]
+        end
+      end.to_h
     end
   end
 end

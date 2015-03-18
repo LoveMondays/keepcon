@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'retryable-rb'
   spec.add_dependency 'faraday'
   spec.add_dependency 'activesupport'
+  spec.add_dependency 'actionview'
   spec.add_dependency 'gyoku'
 
   spec.add_development_dependency 'bundler'

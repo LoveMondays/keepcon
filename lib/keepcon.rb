@@ -1,3 +1,4 @@
+require 'keepcon/context'
 require 'keepcon/version'
 
 module Keepcon

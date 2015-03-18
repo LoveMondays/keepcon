@@ -5,10 +5,12 @@ module Keepcon
 
     def initialize(params = {})
       @mappings = {}
-      params.each { |k, v| send("#{k}=", v) }
+      map(params[:mappings])
+      params.except(:mappings).each { |k, v| send("#{k}=", v) }
     end
 
     def map(hash)
+      return unless hash.present?
       hash.each { |k, v| add_mapping(k, v) }
     end
 

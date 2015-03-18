@@ -46,8 +46,8 @@ describe Keepcon::Entity do
           <contenttype>#{context.name}</contenttype>
           <contents>
             <content id="1">
-              <x>1</x>
-              <y>2</y>
+              <x><![CDATA[1]]></x>
+              <y><![CDATA[2]]></y>
             </content>
           </contents>
         </import>

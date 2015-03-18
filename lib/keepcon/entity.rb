@@ -1,7 +1,10 @@
 require 'gyoku'
+require 'action_view'
 
 module Keepcon
   class Entity
+    include ActionView::Helpers::TagHelper
+
     attr_accessor :context, :instance
 
     def initialize(params = {})
@@ -34,7 +37,7 @@ module Keepcon
     end
 
     def translate_to_xml_hash
-      translate.map { |k, v| [k, { content!: v }] }.to_h
+      translate.map { |k, v| ["#{k}!", { content!: cdata_section(v) }] }.to_h
     end
   end
 end

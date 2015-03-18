@@ -15,7 +15,6 @@ describe Keepcon do
 
     it { expect(described_class.contexts.length).to eq(1) }
     it { expect(added_context.name).to eq(params[:name]) }
-    it { expect(added_context.password).to eq(params[:password]) }
   end
 
   describe '.setup' do

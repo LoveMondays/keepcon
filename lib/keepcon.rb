@@ -2,6 +2,7 @@ require 'active_support'
 require 'active_support/core_ext/object'
 
 require 'keepcon/context'
+require 'keepcon/entity'
 require 'keepcon/mapping'
 require 'keepcon/version'
 

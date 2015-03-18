@@ -1,6 +1,6 @@
 module Keepcon
-  class Context
-    attr_accessor :name, :password
+  class Mapping
+    attr_accessor :from, :to
 
     def initialize(params = {})
       params.each { |k, v| send("#{k}=", v) }

@@ -1,6 +1,7 @@
 require 'active_support'
 
 require 'keepcon/context'
+require 'keepcon/mapping'
 require 'keepcon/version'
 
 module Keepcon

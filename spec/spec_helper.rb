@@ -4,6 +4,6 @@ CodeClimate::TestReporter.start
 
 require 'rspec'
 require 'keepcon'
-Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f }
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
 require_relative 'vcr_setup'

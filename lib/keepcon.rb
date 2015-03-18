@@ -1,5 +1,9 @@
 require 'keepcon/version'
 
 module Keepcon
-  # Your code goes here...
+  class << self
+    def setup
+      yield self
+    end
+  end
 end

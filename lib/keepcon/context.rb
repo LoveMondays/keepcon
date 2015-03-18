@@ -18,6 +18,10 @@ module Keepcon
       @mappings[attribute].try(:to)
     end
 
+    def attribute_names
+      @mappings.keys
+    end
+
     private
 
     def add_mapping(from, to)

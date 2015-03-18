@@ -18,4 +18,12 @@ describe Keepcon::Context do
     it { expect(subject.translate(:a)).to eq(:b) }
     it { expect(subject.translate(:c)).to eq(:d) }
   end
+
+  describe '#attribute_names' do
+    subject { context.attribute_names }
+
+    let(:context) { build(:context, mappings: { a: :b, c: :d }) }
+
+    it { expect(subject).to match_array([:a, :c]) }
+  end
 end

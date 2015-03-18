@@ -11,4 +11,22 @@ describe Keepcon::Entity do
     it { expect(subject.context).to eq(attributes[:context]) }
     it { expect(subject.instance).to eq(attributes[:instance]) }
   end
+
+  describe '#translate' do
+    subject { entity.translate }
+
+    let(:dummy_class) do
+      Class.new do
+        define_method(:a) { 1 }
+        define_method(:b) { 2 }
+      end
+    end
+
+    let(:entity) { build(:entity, context: context, instance: instance) }
+    let(:context) { build(:context, mappings: { a: :x, b: :y }) }
+    let(:instance) { dummy_class.new }
+
+    it { expect(subject).to match_array(x: 1, y: 2) }
+    it { expect(subject.class).to eq(Hash) }
+  end
 end

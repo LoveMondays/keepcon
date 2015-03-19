@@ -22,6 +22,13 @@ module Keepcon
       @mappings.keys
     end
 
+    def client
+      @client ||= Client.new do |config|
+        config.user = user
+        config.password = @password
+      end
+    end
+
     private
 
     def add_mapping(from, to)

@@ -26,4 +26,13 @@ describe Keepcon::Context do
 
     it { expect(subject).to match_array([:a, :c]) }
   end
+
+  describe '#client' do
+    subject { context.client }
+
+    let(:context) { build(:context) }
+
+    it { expect(subject.class).to eq(Keepcon::Client) }
+    it { expect(subject.user).to eq(context.user) }
+  end
 end

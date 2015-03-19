@@ -23,10 +23,14 @@ module Keepcon
     end
 
     def send_data
-      context.client.content_request(to_xml)
+      parse_response(context.client.content_request(to_xml))
     end
 
     private
+
+    def parse_response(response)
+      response.status >= 200 && response.status < 300
+    end
 
     def xml_hash
       {

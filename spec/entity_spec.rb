@@ -99,10 +99,18 @@ describe Keepcon::Entity do
     let(:entity) { build(:entity, context: context, instance: instance) }
     let(:instance) { dummy_class.new }
     let(:context) { build(:context, mappings: { a: :x, b: :y }) }
+    let(:response) { Faraday::Response.new.finish(status: 200) }
 
-    it 'calls the #content_request with the corresponding xml' do
-      expect(context.client).to receive(:content_request).with(entity.to_xml)
+    before do
+      allow(context.client).to receive(:content_request).with(entity.to_xml)
+        .and_return(response)
       subject
     end
+
+    it 'calls the #content_request with the corresponding xml' do
+      expect(context.client).to have_received(:content_request).once
+    end
+
+    it { is_expected.to be true }
   end
 end

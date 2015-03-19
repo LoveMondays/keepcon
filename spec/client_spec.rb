@@ -16,8 +16,8 @@ describe Keepcon::Client do
     end
   end
 
-  describe '#send' do
-    subject { client.send(data) }
+  describe '#content_request' do
+    subject { client.content_request(data) }
 
     let(:adapter) do
       Faraday::Adapter::Test::Stubs.new do |stub|

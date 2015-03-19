@@ -10,7 +10,7 @@ module Keepcon
       yield self if block_given?
     end
 
-    def send(data)
+    def content_request(data)
       fail ArgumentError, 'The data can not be empty' unless data.present?
 
       conn = Faraday.new(url: config['urls']['keepcon']['sync'])

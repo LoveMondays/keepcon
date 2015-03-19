@@ -1,0 +1,3 @@
+request:
+  headers:
+    user_agent: 'Keepcon Client API REST v1.0 - Context Name: [%{user}]'

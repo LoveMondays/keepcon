@@ -6,7 +6,7 @@ describe Keepcon::Context do
 
     let(:attributes) { attributes_for(:context, mappings: { a: :b }) }
 
-    it { expect(subject.name).to eq(attributes[:name]) }
+    it { expect(subject.user).to eq(attributes[:user]) }
     it { expect(subject.translate(:a)).to eq(:b) }
   end
 

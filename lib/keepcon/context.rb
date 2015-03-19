@@ -1,6 +1,6 @@
 module Keepcon
   class Context
-    attr_accessor :name
+    attr_accessor :user
     attr_writer :password
 
     def initialize(params = {})

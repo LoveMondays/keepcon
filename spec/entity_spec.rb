@@ -46,7 +46,7 @@ describe Keepcon::Entity do
       it 'generates the correct xml' do
         is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
           <import>
-            <contenttype>#{context.name}</contenttype>
+            <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
                 <author type="author">1</author>
@@ -63,7 +63,7 @@ describe Keepcon::Entity do
       it 'generates the correct xml' do
         is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
           <import>
-            <contenttype>#{context.name}</contenttype>
+            <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
                 <datetime>1420070400000</datetime>
@@ -80,7 +80,7 @@ describe Keepcon::Entity do
       it 'generates the correct xml' do
         is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
           <import>
-            <contenttype>#{context.name}</contenttype>
+            <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
                 <x><![CDATA[1]]></x>

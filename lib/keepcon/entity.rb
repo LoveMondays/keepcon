@@ -27,7 +27,7 @@ module Keepcon
     def xml_hash
       {
         import: {
-          contenttype: context.name,
+          contenttype: context.user,
           contents: {
             content: [
               { :@id => instance.id }.merge(translate_to_xml_hash)

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :context, class: Keepcon::Context do
-    name
+    user
     password
 
     initialize_with { new(attributes) }

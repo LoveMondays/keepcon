@@ -92,4 +92,17 @@ describe Keepcon::Entity do
       end
     end
   end
+
+  describe '#send_data' do
+    subject { entity.send_data }
+
+    let(:entity) { build(:entity, context: context, instance: instance) }
+    let(:instance) { dummy_class.new }
+    let(:context) { build(:context, mappings: { a: :x, b: :y }) }
+
+    it 'calls the #content_request with the corresponding xml' do
+      expect(context.client).to receive(:content_request).with(entity.to_xml)
+      subject
+    end
+  end
 end

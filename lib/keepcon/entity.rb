@@ -22,6 +22,10 @@ module Keepcon
       Gyoku.xml(xml_hash)
     end
 
+    def send_data
+      context.client.content_request(to_xml)
+    end
+
     private
 
     def xml_hash

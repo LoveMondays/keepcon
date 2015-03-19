@@ -6,7 +6,7 @@ describe Keepcon::Entity do
       define_method(:id) { 1 }
       define_method(:a) { 1 }
       define_method(:b) { 2 }
-      define_method(:created_at) { Time.new('2015-01-01') }
+      define_method(:created_at) { Time.utc('2015-01-01') }
     end
   end
 
@@ -66,7 +66,7 @@ describe Keepcon::Entity do
             <contenttype>#{context.name}</contenttype>
             <contents>
               <content id="1">
-                <datetime>1420077600000</datetime>
+                <datetime>1420070400000</datetime>
               </content>
             </contents>
           </import>

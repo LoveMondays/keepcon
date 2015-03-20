@@ -99,7 +99,8 @@ describe Keepcon::Entity do
     let(:entity) { build(:entity, context: context, instance: instance) }
     let(:instance) { dummy_class.new }
     let(:context) { build(:context, mappings: { a: :x, b: :y }) }
-    let(:response) { Faraday::Response.new.finish(status: 200) }
+    let(:response) { Keepcon::Entity::Response.new(http_response) }
+    let(:http_response) { Faraday::Response.new.finish(status: 200) }
 
     before do
       allow(context.client).to receive(:content_request).with(entity.to_xml)
@@ -111,6 +112,6 @@ describe Keepcon::Entity do
       expect(context.client).to have_received(:content_request).once
     end
 
-    it { is_expected.to be true }
+    it { expect(subject.status).to be 200 }
   end
 end

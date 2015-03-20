@@ -1,6 +1,8 @@
 require 'gyoku'
 require 'action_view'
 
+require 'keepcon/entity/response'
+
 module Keepcon
   class Entity
     include ActionView::Helpers::TagHelper
@@ -29,7 +31,7 @@ module Keepcon
     private
 
     def parse_response(response)
-      response.status >= 200 && response.status < 300
+      Response.new(response)
     end
 
     def xml_hash

@@ -8,8 +8,8 @@ describe Keepcon do
   describe '.add_context' do
     subject { described_class.add_context(params) }
 
-    let(:params) { { user: 'test', password: 'password' } }
-    let(:added_context) { described_class.contexts.last }
+    let(:params) { { user: 'UserName', password: 'password' } }
+    let(:added_context) { described_class.contexts[:user_name] }
 
     before { subject }
 

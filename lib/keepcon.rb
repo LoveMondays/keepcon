@@ -11,7 +11,7 @@ require 'keepcon/version'
 
 module Keepcon
   mattr_accessor :contexts
-  self.contexts = []
+  self.contexts = {}
 
   class << self
     def setup
@@ -19,7 +19,7 @@ module Keepcon
     end
 
     def add_context(params)
-      contexts << Context.new(params)
+      contexts[params[:user].underscore.to_sym] = Context.new(params)
     end
   end
 end

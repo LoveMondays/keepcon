@@ -5,6 +5,18 @@ describe Keepcon do
     expect(Keepcon::VERSION).not_to be nil
   end
 
+  describe '.add_context' do
+    subject { described_class.add_context(params) }
+
+    let(:params) { { name: 'test', password: 'password' } }
+    let(:added_context) { described_class.contexts.last }
+
+    before { subject }
+
+    it { expect(described_class.contexts.length).to eq(1) }
+    it { expect(added_context.name).to eq(params[:name]) }
+  end
+
   describe '.setup' do
     it 'passes the Keepcon module to the block' do
       described_class.setup do |config|

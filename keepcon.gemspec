@@ -25,10 +25,14 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'retryable-rb'
   spec.add_dependency 'faraday'
+  spec.add_dependency 'activesupport'
+  spec.add_dependency 'actionview'
+  spec.add_dependency 'gyoku'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'factory_girl'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'

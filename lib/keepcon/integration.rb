@@ -1,15 +1,11 @@
 module Keepcon
   module Integration
-    def send_to_keepcon
-      keepcon_entity.send_data
+    def send_to_keepcon(context)
+      keepcon_entity(context).send_data
     end
 
-    def keepcon_entity
-      @keepcon_entity ||= Entity.new(context: keepcon_context, instance: self)
-    end
-
-    def keepcon_context
-      self.class.keepcon_context
+    def keepcon_entity(context)
+      Entity.new(context: context, instance: self)
     end
 
     def self.included(base)
@@ -17,17 +13,22 @@ module Keepcon
     end
 
     module ClassMethods
-      mattr_accessor :keepcon_context
+      def keepcon_integration(context_name, mappings = {})
+        unless (context = find_context(context_name))
+          fail 'The context does not exist'
+        end
 
-      def keepcon_integration(context, mappings = {})
-        fail 'The context does not exist' unless find_context(context)
-        keepcon_context.map(mappings)
+        context.map(mappings)
+
+        define_method("send_#{context_name}_to_keepcon") do
+          send_to_keepcon(context)
+        end
       end
 
       private
 
       def find_context(context)
-        self.keepcon_context = Keepcon.contexts[context]
+        Keepcon.contexts[context]
       end
     end
   end

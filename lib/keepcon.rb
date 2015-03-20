@@ -6,6 +6,7 @@ require 'active_support/core_ext/object'
 require 'keepcon/client'
 require 'keepcon/context'
 require 'keepcon/entity'
+require 'keepcon/integration'
 require 'keepcon/mapping'
 require 'keepcon/version'
 

@@ -8,11 +8,14 @@ require 'keepcon/context'
 require 'keepcon/entity'
 require 'keepcon/integration'
 require 'keepcon/mapping'
+require 'keepcon/rails'
 require 'keepcon/version'
 
 module Keepcon
   mattr_accessor :contexts
   self.contexts = {}
+
+  Rails.setup!
 
   class << self
     def setup

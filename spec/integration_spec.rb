@@ -14,7 +14,7 @@ describe Keepcon::Integration do
   let(:instance) { dummy_class.new }
   let(:added_context) { Keepcon.contexts[:user] }
 
-  before { Keepcon.add_context(user: 'user', password: 'password') }
+  before { Keepcon.add_context(:user, user: 'user', password: 'password') }
 
   describe '.keepcon_integration' do
     context 'when context do not exists' do

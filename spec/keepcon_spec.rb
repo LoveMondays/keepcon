@@ -6,7 +6,7 @@ describe Keepcon do
   end
 
   describe '.add_context' do
-    subject { described_class.add_context(params) }
+    subject { described_class.add_context(:user_name, params) }
 
     let(:params) { { user: 'UserName', password: 'password' } }
     let(:added_context) { described_class.contexts[:user_name] }

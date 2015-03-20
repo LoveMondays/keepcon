@@ -5,7 +5,7 @@ describe Keepcon::Entity do
     Class.new do
       define_method(:id) { 1 }
       define_method(:a) { 1 }
-      define_method(:b) { 2 }
+      define_method(:b) { 'b' }
       define_method(:created_at) { Time.utc('2015-01-01') }
     end
   end
@@ -30,7 +30,7 @@ describe Keepcon::Entity do
     let(:context) { build(:context, mappings: { a: :x, b: :y }) }
     let(:instance) { dummy_class.new }
 
-    it { expect(subject).to match_array(x: 1, y: 2) }
+    it { expect(subject).to match_array(x: 1, y: 'b') }
     it { expect(subject.class).to eq(Hash) }
   end
 
@@ -83,8 +83,8 @@ describe Keepcon::Entity do
             <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
-                <x><![CDATA[1]]></x>
-                <y><![CDATA[2]]></y>
+                <x>1</x>
+                <y><![CDATA[b]]></y>
               </content>
             </contents>
           </import>
@@ -94,7 +94,7 @@ describe Keepcon::Entity do
   end
 
   describe '#send_data' do
-    subject { entity.send_data }
+    subject { entity.send_data(mode) }
 
     let(:entity) { build(:entity, context: context, instance: instance) }
     let(:instance) { dummy_class.new }
@@ -103,15 +103,29 @@ describe Keepcon::Entity do
     let(:http_response) { Faraday::Response.new.finish(status: 200) }
 
     before do
-      allow(context.client).to receive(:content_request).with(entity.to_xml)
-        .and_return(response)
+      allow(context.client).to receive(:content_request)
+        .with(entity.to_xml, mode).and_return(response)
       subject
     end
 
-    it 'calls the #content_request with the corresponding xml' do
-      expect(context.client).to have_received(:content_request).once
+    context 'sync request' do
+      let(:mode) { :sync }
+
+      it 'calls the #content_request with the corresponding xml' do
+        expect(context.client).to have_received(:content_request).once
+      end
+
+      it { expect(subject.status).to be 200 }
     end
 
-    it { expect(subject.status).to be 200 }
+    context 'async request' do
+      let(:mode) { :async }
+
+      it 'calls the #content_request with the corresponding xml' do
+        expect(context.client).to have_received(:content_request).once
+      end
+
+      it { expect(subject.status).to be 200 }
+    end
   end
 end

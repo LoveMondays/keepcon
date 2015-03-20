@@ -17,12 +17,15 @@ describe Keepcon::Client do
   end
 
   describe '#content_request' do
-    subject { client.content_request(data) }
+    subject { client.content_request(data, mode) }
 
     let(:adapter) do
       Faraday::Adapter::Test::Stubs.new do |stub|
         stub.put('/synchronic/moderate', 'data', headers) do |_env|
-          [200, {}, 'ok']
+          [200, {}, 'sync']
+        end
+        stub.put('/input/contentSet', 'data', headers) do |_env|
+          [200, {}, 'async']
         end
       end
     end
@@ -40,6 +43,7 @@ describe Keepcon::Client do
 
     context 'with empty data' do
       let(:data) { '' }
+      let(:mode) { :sync }
 
       it { expect { subject }.to raise_error(ArgumentError) }
     end
@@ -47,8 +51,19 @@ describe Keepcon::Client do
     context 'with any data' do
       let(:data) { 'data' }
 
-      it { expect(subject.status).to eq(200) }
-      it { expect(subject.body).to eq('ok') }
+      context 'sync request' do
+        let(:mode) { :sync }
+
+        it { expect(subject.status).to eq(200) }
+        it { expect(subject.body).to eq('sync') }
+      end
+
+      context 'async request' do
+        let(:mode) { :async }
+
+        it { expect(subject.status).to eq(200) }
+        it { expect(subject.body).to eq('async') }
+      end
     end
   end
 end

@@ -24,8 +24,8 @@ module Keepcon
       Gyoku.xml(xml_hash)
     end
 
-    def send_data
-      parse_response(context.client.content_request(to_xml))
+    def send_data(mode = :sync)
+      parse_response(context.client.content_request(to_xml, mode))
     end
 
     private
@@ -49,9 +49,10 @@ module Keepcon
 
     def translate_to_xml_hash
       translation = translate.map do |k, v|
-        case k
-        when :datetime then [k, { content!: (v.to_f * 1_000).to_i }]
-        when :author then [k, { :@type => :author, :content! => v }]
+        case
+        when k == :datetime then [k, { content!: (v.to_f * 1_000).to_i }]
+        when k == :author then [k, { :@type => :author, :content! => v }]
+        when v.is_a?(Fixnum) then [k, { content!: v }]
         else ["#{k}!", { content!: cdata_section(v) }]
         end
       end

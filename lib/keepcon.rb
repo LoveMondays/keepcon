@@ -1,6 +1,9 @@
+require 'yaml'
+require 'faraday'
 require 'active_support'
 require 'active_support/core_ext/object'
 
+require 'keepcon/client'
 require 'keepcon/context'
 require 'keepcon/entity'
 require 'keepcon/mapping'

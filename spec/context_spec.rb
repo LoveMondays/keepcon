@@ -6,7 +6,7 @@ describe Keepcon::Context do
 
     let(:attributes) { attributes_for(:context, mappings: { a: :b }) }
 
-    it { expect(subject.name).to eq(attributes[:name]) }
+    it { expect(subject.user).to eq(attributes[:user]) }
     it { expect(subject.translate(:a)).to eq(:b) }
   end
 
@@ -25,5 +25,14 @@ describe Keepcon::Context do
     let(:context) { build(:context, mappings: { a: :b, c: :d }) }
 
     it { expect(subject).to match_array([:a, :c]) }
+  end
+
+  describe '#client' do
+    subject { context.client }
+
+    let(:context) { build(:context) }
+
+    it { expect(subject.class).to eq(Keepcon::Client) }
+    it { expect(subject.user).to eq(context.user) }
   end
 end

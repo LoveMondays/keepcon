@@ -46,7 +46,7 @@ describe Keepcon::Entity do
       it 'generates the correct xml' do
         is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
           <import>
-            <contenttype>#{context.name}</contenttype>
+            <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
                 <author type="author">1</author>
@@ -63,7 +63,7 @@ describe Keepcon::Entity do
       it 'generates the correct xml' do
         is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
           <import>
-            <contenttype>#{context.name}</contenttype>
+            <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
                 <datetime>1420070400000</datetime>
@@ -80,7 +80,7 @@ describe Keepcon::Entity do
       it 'generates the correct xml' do
         is_expected.to eq(<<-"END".gsub(/(\s*\n|^\s*)/, '').strip)
           <import>
-            <contenttype>#{context.name}</contenttype>
+            <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
                 <x><![CDATA[1]]></x>
@@ -91,5 +91,26 @@ describe Keepcon::Entity do
         END
       end
     end
+  end
+
+  describe '#send_data' do
+    subject { entity.send_data }
+
+    let(:entity) { build(:entity, context: context, instance: instance) }
+    let(:instance) { dummy_class.new }
+    let(:context) { build(:context, mappings: { a: :x, b: :y }) }
+    let(:response) { Faraday::Response.new.finish(status: 200) }
+
+    before do
+      allow(context.client).to receive(:content_request).with(entity.to_xml)
+        .and_return(response)
+      subject
+    end
+
+    it 'calls the #content_request with the corresponding xml' do
+      expect(context.client).to have_received(:content_request).once
+    end
+
+    it { is_expected.to be true }
   end
 end

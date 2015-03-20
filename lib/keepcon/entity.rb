@@ -22,12 +22,20 @@ module Keepcon
       Gyoku.xml(xml_hash)
     end
 
+    def send_data
+      parse_response(context.client.content_request(to_xml))
+    end
+
     private
+
+    def parse_response(response)
+      response.status >= 200 && response.status < 300
+    end
 
     def xml_hash
       {
         import: {
-          contenttype: context.name,
+          contenttype: context.user,
           contents: {
             content: [
               { :@id => instance.id }.merge(translate_to_xml_hash)

@@ -1,0 +1,8 @@
+keepcon:
+  sync: 'http://sync.keepcon.com'
+  async: 'http://service.keepcon.com'
+content:
+  sync: '/synchronic/moderate'
+  async:
+    request: '/input/contentSet'
+    response: '/output/contentSet?contextName=%{context_name}'

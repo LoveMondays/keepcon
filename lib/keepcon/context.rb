@@ -1,6 +1,6 @@
 module Keepcon
   class Context
-    attr_accessor :name
+    attr_accessor :user
     attr_writer :password
 
     def initialize(params = {})
@@ -20,6 +20,13 @@ module Keepcon
 
     def attribute_names
       @mappings.keys
+    end
+
+    def client
+      @client ||= Client.new do |config|
+        config.user = user
+        config.password = @password
+      end
     end
 
     private

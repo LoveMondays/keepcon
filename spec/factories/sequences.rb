@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  sequence :name do |n|
-    "name_#{n}"
+  sequence :user do |n|
+    "user_#{n}"
   end
 
   sequence :password do |n|

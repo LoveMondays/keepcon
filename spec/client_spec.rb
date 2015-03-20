@@ -27,7 +27,10 @@ describe Keepcon::Client do
       end
     end
     let(:headers) do
-      { 'User-Agent' => 'Keepcon Client API REST v1.0 - Context Name: [user]' }
+      {
+        'User-Agent' => 'Keepcon Client API REST v1.0 - Context Name: [user]',
+        'Authorization' => 'Basic dXNlcjpwYXNzd29yZA=='
+      }
     end
     let!(:faraday) { Faraday.new { |f| f.adapter :test, adapter } }
 

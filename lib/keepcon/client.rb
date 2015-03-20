@@ -14,6 +14,7 @@ module Keepcon
       fail ArgumentError, 'The data can not be empty' unless data.present?
 
       conn = Faraday.new(url: config['urls']['keepcon']['sync'])
+      conn.basic_auth(user, @password)
       conn.put(config['urls']['content']['sync'], data.to_s, headers)
     end
 

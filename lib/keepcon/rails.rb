@@ -2,7 +2,7 @@ module Keepcon
   class Rails
     class << self
       def setup!
-        add_integration(ActiveModel::Model) if defined?(ActiveModel::Model)
+        add_integration(ActiveRecord::Base) if defined?(ActiveRecord::Base)
       end
 
       private

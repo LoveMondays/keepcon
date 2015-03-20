@@ -37,7 +37,7 @@ describe Keepcon::Integration do
     before { dummy_class.keepcon_integration(:user, a: :b) }
 
     describe '#send_to_keepcon' do
-      subject { instance.send_to_keepcon(added_context) }
+      subject { instance.send_to_keepcon(added_context, mode) }
 
       let(:entity) do
         Keepcon::Entity.new(context: added_context, instance: instance)
@@ -45,9 +45,22 @@ describe Keepcon::Integration do
 
       before { allow(instance).to receive(:keepcon_entity).and_return(entity) }
 
-      it 'calls send_data on the entity' do
-        expect(entity).to receive(:send_data).once
-        subject
+      context 'sync request' do
+        let(:mode) { :sync }
+
+        it 'calls send_data on the entity' do
+          expect(entity).to receive(:send_data).with(:sync).once
+          subject
+        end
+      end
+
+      context 'async request' do
+        let(:mode) { :async }
+
+        it 'calls send_data on the entity' do
+          expect(entity).to receive(:send_data).with(:async).once
+          subject
+        end
       end
     end
 
@@ -59,11 +72,26 @@ describe Keepcon::Integration do
     end
 
     describe '#send_context_to_keepcon' do
-      subject { instance.send_user_to_keepcon }
+      subject { instance.send_user_to_keepcon(mode) }
 
-      it 'calls #send_to_keepcon with the context' do
-        expect(instance).to receive(:send_to_keepcon).with(added_context)
-        subject
+      context 'sync request' do
+        let(:mode) { :sync }
+
+        it 'calls #send_to_keepcon with the context' do
+          expect(instance).to receive(:send_to_keepcon)
+            .with(added_context, :sync)
+          subject
+        end
+      end
+
+      context 'async request' do
+        let(:mode) { :async }
+
+        it 'calls #send_to_keepcon with the context' do
+          expect(instance).to receive(:send_to_keepcon)
+            .with(added_context, :async)
+          subject
+        end
       end
     end
   end

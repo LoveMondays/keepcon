@@ -1,7 +1,7 @@
 module Keepcon
   module Integration
-    def send_to_keepcon(context)
-      keepcon_entity(context).send_data
+    def send_to_keepcon(context, mode = :sync)
+      keepcon_entity(context).send_data(mode)
     end
 
     def keepcon_entity(context)
@@ -20,8 +20,8 @@ module Keepcon
 
         context.map(mappings)
 
-        define_method("send_#{context_name}_to_keepcon") do
-          send_to_keepcon(context)
+        define_method("send_#{context_name}_to_keepcon") do |mode = :sync|
+          send_to_keepcon(context, mode)
         end
       end
 

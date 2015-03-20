@@ -8,7 +8,7 @@ module Keepcon
       private
 
       def add_integration(klass)
-        klass.include(Integration) unless klass.include?(Integration)
+        klass.send(:include, Integration) unless klass.include?(Integration)
       end
     end
   end

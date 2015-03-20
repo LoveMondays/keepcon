@@ -14,7 +14,7 @@ describe Keepcon::Integration do
   let(:instance) { dummy_class.new }
   let(:added_context) { Keepcon.contexts[:user] }
 
-  before { Keepcon.add_context(user: 'user', password: 'password') }
+  before { Keepcon.add_context(:user, user: 'user', password: 'password') }
 
   describe '.keepcon_integration' do
     context 'when context do not exists' do
@@ -29,6 +29,7 @@ describe Keepcon::Integration do
       before { subject }
 
       it { expect(added_context.translate(:a)).to eq(:b) }
+      it { expect(instance.respond_to?(:send_user_to_keepcon)).to be true }
     end
   end
 
@@ -36,19 +37,34 @@ describe Keepcon::Integration do
     before { dummy_class.keepcon_integration(:user, a: :b) }
 
     describe '#send_to_keepcon' do
-      subject { instance.send_to_keepcon }
+      subject { instance.send_to_keepcon(added_context) }
+
+      let(:entity) do
+        Keepcon::Entity.new(context: added_context, instance: instance)
+      end
+
+      before { allow(instance).to receive(:keepcon_entity).and_return(entity) }
 
       it 'calls send_data on the entity' do
-        expect(instance.keepcon_entity).to receive(:send_data).once
+        expect(entity).to receive(:send_data).once
         subject
       end
     end
 
     describe '#keepcon_entity' do
-      subject { instance.keepcon_entity }
+      subject { instance.keepcon_entity(added_context) }
 
       it { expect(subject.context).to eq(added_context) }
       it { expect(subject.instance).to eq(instance) }
+    end
+
+    describe '#send_context_to_keepcon' do
+      subject { instance.send_user_to_keepcon }
+
+      it 'calls #send_to_keepcon with the context' do
+        expect(instance).to receive(:send_to_keepcon).with(added_context)
+        subject
+      end
     end
   end
 end

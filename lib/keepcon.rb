@@ -22,8 +22,8 @@ module Keepcon
       yield self
     end
 
-    def add_context(params)
-      contexts[params[:user].underscore.to_sym] = Context.new(params)
+    def add_context(name, params)
+      contexts[name] = Context.new(params)
     end
   end
 end

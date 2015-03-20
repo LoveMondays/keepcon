@@ -94,7 +94,7 @@ describe Keepcon::Entity do
   end
 
   describe '#send_data' do
-    subject { entity.send_data }
+    subject { entity.send_data(mode) }
 
     let(:entity) { build(:entity, context: context, instance: instance) }
     let(:instance) { dummy_class.new }
@@ -103,15 +103,29 @@ describe Keepcon::Entity do
     let(:http_response) { Faraday::Response.new.finish(status: 200) }
 
     before do
-      allow(context.client).to receive(:content_request).with(entity.to_xml)
-        .and_return(response)
+      allow(context.client).to receive(:content_request)
+        .with(entity.to_xml, mode).and_return(response)
       subject
     end
 
-    it 'calls the #content_request with the corresponding xml' do
-      expect(context.client).to have_received(:content_request).once
+    context 'sync request' do
+      let(:mode) { :sync }
+
+      it 'calls the #content_request with the corresponding xml' do
+        expect(context.client).to have_received(:content_request).once
+      end
+
+      it { expect(subject.status).to be 200 }
     end
 
-    it { expect(subject.status).to be 200 }
+    context 'async request' do
+      let(:mode) { :async }
+
+      it 'calls the #content_request with the corresponding xml' do
+        expect(context.client).to have_received(:content_request).once
+      end
+
+      it { expect(subject.status).to be 200 }
+    end
   end
 end

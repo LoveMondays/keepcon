@@ -24,8 +24,8 @@ module Keepcon
       Gyoku.xml(xml_hash)
     end
 
-    def send_data
-      parse_response(context.client.content_request(to_xml))
+    def send_data(mode = :sync)
+      parse_response(context.client.content_request(to_xml, mode))
     end
 
     private

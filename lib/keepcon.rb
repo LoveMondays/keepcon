@@ -6,12 +6,13 @@ require 'active_support/core_ext/object'
 require 'keepcon/client'
 require 'keepcon/context'
 require 'keepcon/entity'
+require 'keepcon/integration'
 require 'keepcon/mapping'
 require 'keepcon/version'
 
 module Keepcon
   mattr_accessor :contexts
-  self.contexts = []
+  self.contexts = {}
 
   class << self
     def setup
@@ -19,7 +20,7 @@ module Keepcon
     end
 
     def add_context(params)
-      contexts << Context.new(params)
+      contexts[params[:user].underscore.to_sym] = Context.new(params)
     end
   end
 end

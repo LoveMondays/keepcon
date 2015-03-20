@@ -5,7 +5,7 @@ describe Keepcon::Entity do
     Class.new do
       define_method(:id) { 1 }
       define_method(:a) { 1 }
-      define_method(:b) { 2 }
+      define_method(:b) { 'b' }
       define_method(:created_at) { Time.utc('2015-01-01') }
     end
   end
@@ -30,7 +30,7 @@ describe Keepcon::Entity do
     let(:context) { build(:context, mappings: { a: :x, b: :y }) }
     let(:instance) { dummy_class.new }
 
-    it { expect(subject).to match_array(x: 1, y: 2) }
+    it { expect(subject).to match_array(x: 1, y: 'b') }
     it { expect(subject.class).to eq(Hash) }
   end
 
@@ -83,8 +83,8 @@ describe Keepcon::Entity do
             <contenttype>#{context.user}</contenttype>
             <contents>
               <content id="1">
-                <x><![CDATA[1]]></x>
-                <y><![CDATA[2]]></y>
+                <x>1</x>
+                <y><![CDATA[b]]></y>
               </content>
             </contents>
           </import>

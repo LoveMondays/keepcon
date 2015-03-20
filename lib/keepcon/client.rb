@@ -13,12 +13,20 @@ module Keepcon
     def content_request(data)
       fail ArgumentError, 'The data can not be empty' unless data.present?
 
-      conn = Faraday.new(url: config['urls']['keepcon']['sync'])
-      conn.basic_auth(user, @password)
-      conn.put(config['urls']['content']['sync'], data.to_s, headers)
+      request(:put, config['urls']['content']['sync'], data)
     end
 
     private
+
+    def request(method, path, data)
+      connection.send(method, path, data.to_s, headers)
+    end
+
+    def connection
+      Faraday.new(url: config['urls']['keepcon']['sync']).tap do |c|
+        c.basic_auth(user, @password)
+      end
+    end
 
     def headers
       { 'User-Agent' => user_agent }

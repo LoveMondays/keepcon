@@ -5,8 +5,8 @@ module Keepcon
 
     def initialize
       self.config = {}
-      config['urls'] = YAML.load_file('lib/keepcon/config/urls.yml')
-      config['client'] = YAML.load_file('lib/keepcon/config/client.yml')
+      config['urls'] = YAML.load_file(urls_config_path)
+      config['client'] = YAML.load_file(client_config_path)
       yield self if block_given?
     end
 
@@ -26,6 +26,14 @@ module Keepcon
       Faraday.new(url: config['urls']['keepcon']['sync']).tap do |c|
         c.basic_auth(user, @password)
       end
+    end
+
+    def urls_config_path
+      File.expand_path('../config/urls.yml', __FILE__)
+    end
+
+    def client_config_path
+      File.expand_path('../config/client.yml', __FILE__)
     end
 
     def headers

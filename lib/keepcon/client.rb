@@ -10,20 +10,20 @@ module Keepcon
       yield self if block_given?
     end
 
-    def content_request(data)
+    def content_request(data, mode = :sync)
       fail ArgumentError, 'The data can not be empty' unless data.present?
 
-      request(:put, config['urls']['content']['sync'], data)
+      request(:put, config['urls']['content']['request'][mode.to_s], data, mode)
     end
 
     private
 
-    def request(method, path, data)
-      connection.send(method, path, data.to_s, headers)
+    def request(method, path, data, mode = :sync)
+      connection(mode).send(method, path, data.to_s, headers)
     end
 
-    def connection
-      Faraday.new(url: config['urls']['keepcon']['sync']).tap do |c|
+    def connection(mode = :sync)
+      Faraday.new(url: config['urls']['keepcon'][mode.to_s]).tap do |c|
         c.basic_auth(user, @password)
       end
     end

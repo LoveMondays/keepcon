@@ -19,10 +19,6 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(test|spec|features)/)
   spec.require_paths = ['lib']
 
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  end
-
   spec.add_dependency 'retryable-rb'
   spec.add_dependency 'faraday'
   spec.add_dependency 'activesupport'

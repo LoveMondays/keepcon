@@ -2,6 +2,7 @@ require 'yaml'
 require 'faraday'
 require 'active_support'
 require 'active_support/core_ext/object'
+require 'active_support/core_ext/time'
 
 require 'keepcon/client'
 require 'keepcon/context'

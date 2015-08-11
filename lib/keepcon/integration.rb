@@ -1,6 +1,6 @@
 module Keepcon
   module Integration
-    def send_to_keepcon(context, mode = :sync)
+    def send_to_keepcon(context, mode)
       keepcon_entity(context).send_data(mode)
     end
 

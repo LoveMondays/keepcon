@@ -18,7 +18,7 @@ module Keepcon
       request(:put, config['urls']['content']['request'][mode.to_s], data, mode)
     end
 
-    def fetch_results
+    def async_results_request
       url = config['urls']['content']['response']['async']
       url = url % { context_name: user }
 

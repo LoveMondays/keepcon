@@ -67,8 +67,8 @@ describe Keepcon::Client do
     end
   end
 
-  describe '#fetch_results' do
-    subject { client.fetch_results }
+  describe '#async_results_request' do
+    subject { client.async_results_request }
 
     let!(:faraday) { Faraday.new { |f| f.adapter :test, adapter } }
     let(:adapter) do

@@ -25,7 +25,8 @@ module Keepcon
       def fetch_keepcon_results(context_name)
         context = find_context(context_name)
 
-        context.client.fetch_results
+        results = context.client.async_results_request
+        Entity::Response.new(results)
       end
 
       private

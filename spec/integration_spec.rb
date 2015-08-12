@@ -18,7 +18,7 @@ describe Keepcon::Integration do
 
   describe '.keepcon_integration' do
     context 'when context do not exists' do
-      subject { dummy_class.keepcon_integration(:test) }
+      subject { dummy_class.keepcon_integration(:missing_context) }
 
       it { expect { subject }.to raise_error }
     end
@@ -97,17 +97,23 @@ describe Keepcon::Integration do
   end
 
   describe '.fetch_keepcon_results' do
+    subject { dummy_class.fetch_keepcon_results(context) }
+
+    let(:results) { double status: 200, body: 'keepcon-xml-response' }
+
     context 'when context do not exists' do
-      subject { dummy_class.fetch_keepcon_results(:test) }
+      let(:context) { :missing_context }
 
       it { expect { subject }.to raise_error }
     end
 
     context 'when context exists' do
-      subject { dummy_class.fetch_keepcon_results(:context) }
+      let(:context) { :context }
 
-      it 'calls client fetch_results for that context' do
-        expect(added_context.client).to receive(:fetch_results)
+      it 'calls client async_results_request for that context' do
+        expect(added_context.client).to receive(:async_results_request) do
+          results
+        end
         subject
       end
     end

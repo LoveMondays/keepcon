@@ -9,8 +9,17 @@ rvm:
 git:
   depth: 1
 script:
-  - bundle exec rspec
   - bundle exec rubocop
+  - bundle exec rspec
 addons:
   code_climate:
     repo_token: 217146fc082e87b5e4b2352141a8832d0da78d66a9d22cb0b5189344648e821e
+deploy:
+  provider: rubygems
+  api_key:
+    secure: ZEWuQ/N6qbm6CZ0jjyje3NI6Ah88GLn6Mka8SzNHlx37n1vTORTgpmnwH3L5Gq02m4E+UanpJC7u2yxZa2xloIx6rh3XPvZQFmBlLyraZbRqB+JQQV+4zX2DXQW157vS9czZ1iLnHVAtd89xNOoL254+LMoqHdT3OHUWmpBk9kU=
+  gem: keepcon
+  on:
+    tags: true
+    repo: LoveMondays/keepcon
+    branch: master

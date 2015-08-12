@@ -17,9 +17,9 @@ require 'rspec/core'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
-RSpec::Core::RakeTask.new(:spec)
-
 desc 'Run RuboCop'
 RuboCop::RakeTask.new(:style)
 
-task default: [:spec, :style]
+RSpec::Core::RakeTask.new(:spec)
+
+task default: [:style, :spec]

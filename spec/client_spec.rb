@@ -66,4 +66,30 @@ describe Keepcon::Client do
       end
     end
   end
+
+  describe '#async_results_request' do
+    subject { client.async_results_request }
+
+    let!(:faraday) { Faraday.new { |f| f.adapter :test, adapter } }
+    let(:adapter) do
+      Faraday::Adapter::Test::Stubs.new do |stub|
+        stub.put('/output/contentSet?contextName=user', '', headers) do |_env|
+          [200, {}, 'all-results-body']
+        end
+      end
+    end
+    let(:headers) do
+      {
+        'User-Agent' => 'Keepcon Client API REST v1.0 - Context Name: [user]',
+        'Authorization' => 'Basic dXNlcjpwYXNzd29yZA=='
+      }
+    end
+
+    before do
+      allow(Faraday).to receive(:new).and_return(faraday)
+    end
+
+    it { expect(subject.status).to eq(200) }
+    it { expect(subject.body).to eq('all-results-body') }
+  end
 end

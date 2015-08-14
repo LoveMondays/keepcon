@@ -29,5 +29,11 @@ describe Keepcon::Entity::Response do
 
     it { is_expected.to include('status' => 'OK') }
     it { is_expected.to include('setId' => set_id) }
+
+    context 'when the body is empty' do
+      let(:body) { '' }
+
+      it { is_expected.to eq({}) }
+    end
   end
 end

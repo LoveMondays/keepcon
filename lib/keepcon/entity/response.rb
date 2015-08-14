@@ -9,7 +9,7 @@ module Keepcon
       end
 
       def data
-        @data ||= Hash.from_xml(body).first[1]
+        @data ||= (body.blank? && {}) || Hash.from_xml(body).first[1]
       end
     end
   end

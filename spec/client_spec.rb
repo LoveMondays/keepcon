@@ -73,7 +73,8 @@ describe Keepcon::Client do
     let!(:faraday) { Faraday.new { |f| f.adapter :test, adapter } }
     let(:adapter) do
       Faraday::Adapter::Test::Stubs.new do |stub|
-        stub.put('/output/contentSet?contextName=user', '', headers) do |_env|
+        uri = '/output/contentSet?contextName=user&clientACK=true'
+        stub.put(uri, '', headers) do |_env|
           [200, {}, 'all-results-body']
         end
       end

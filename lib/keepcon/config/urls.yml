@@ -6,4 +6,4 @@ content:
     sync: '/synchronic/moderate'
     async: '/input/contentSet'
   response:
-    async: '/output/contentSet?contextName=%{context_name}&clientACK=true'
+    async: '/output/contentSet?contextName=%{context_name}&clientACK=true&maxResults=100'

@@ -26,7 +26,10 @@ module Keepcon
         context = find_context(context_name)
 
         results = context.client.async_results_request
-        Entity::Response.new(results)
+        response = Entity::Response.new(results)
+        context.client.async_ack(response.data['setId'])
+
+        response
       end
 
       private

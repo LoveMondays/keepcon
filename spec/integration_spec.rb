@@ -99,7 +99,15 @@ describe Keepcon::Integration do
   describe '.fetch_keepcon_results' do
     subject { dummy_class.fetch_keepcon_results(context) }
 
-    let(:results) { double status: 200, body: 'keepcon-xml-response' }
+    let(:results) { double status: 200, body: body }
+    let(:body) do
+      <<-XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <export setId="b537-35642fb84114">
+          <contents></contents>
+        </export>
+      XML
+    end
 
     context 'when context do not exists' do
       let(:context) { :missing_context }
@@ -109,12 +117,12 @@ describe Keepcon::Integration do
 
     context 'when context exists' do
       let(:context) { :context }
+      let(:client) { added_context.client }
 
       it 'calls client async_results_request for that context' do
-        expect(added_context.client).to receive(:async_results_request) do
-          results
-        end
-        subject
+        expect(client).to receive(:async_results_request) { results }
+        expect(client).to receive(:async_ack).with('b537-35642fb84114')
+        is_expected.to be_a(Keepcon::Entity::Response)
       end
     end
   end

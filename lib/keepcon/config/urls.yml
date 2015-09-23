@@ -7,3 +7,4 @@ content:
     async: '/input/contentSet'
   response:
     async: '/output/contentSet?contextName=%{context_name}&clientACK=true&maxResults=100'
+    ack: '/ack/%{setId}'

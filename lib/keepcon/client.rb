@@ -25,6 +25,13 @@ module Keepcon
       request(:put, url)
     end
 
+    def async_ack(setId)
+      url = config['urls']['content']['response']['ack']
+      url = url % { setId: setId }
+
+      request(:put, url)
+    end
+
     private
 
     def request(method, path, data = '', mode = :async)
@@ -43,7 +50,10 @@ module Keepcon
     end
 
     def headers
-      { 'User-Agent' => user_agent }
+      {
+        'User-Agent' => user_agent,
+        'Content-Type' => 'text/plain; charset=utf-8'
+      }
     end
 
     def user_agent

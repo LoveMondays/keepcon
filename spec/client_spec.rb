@@ -93,4 +93,31 @@ describe Keepcon::Client do
     it { expect(subject.status).to eq(200) }
     it { expect(subject.body).to eq('all-results-body') }
   end
+
+  describe '#async_ack' do
+    subject { client.async_ack('my_set_id') }
+
+    let!(:faraday) { Faraday.new { |f| f.adapter :test, adapter } }
+    let(:adapter) do
+      Faraday::Adapter::Test::Stubs.new do |stub|
+        uri = '/ack/my_set_id'
+        stub.put(uri, '', headers) do |_env|
+          [200, {}, 'ack_response_body']
+        end
+      end
+    end
+    let(:headers) do
+      {
+        'User-Agent' => 'Keepcon Client API REST v1.0 - Context Name: [user]',
+        'Authorization' => 'Basic dXNlcjpwYXNzd29yZA=='
+      }
+    end
+
+    before do
+      allow(Faraday).to receive(:new).and_return(faraday)
+    end
+
+    it { expect(subject.status).to eq(200) }
+    it { expect(subject.body).to eq('ack_response_body') }
+  end
 end
